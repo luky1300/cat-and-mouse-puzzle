@@ -10,7 +10,9 @@ const config = {
 
 const game = new Phaser.Game(config);
 
-function preload() {}
+function preload() {
+  this.load.image("tile3", "assets/tile1.png");
+}
 
 function create() {
   const field = this.add.rectangle(200, 200, 300, 300, 0x6666ff);
@@ -23,9 +25,11 @@ function create() {
     .rectangle(450, 450, 100, 100, 0x80aa90)
     .setInteractive();
   tile2.name = "tile2";
+  const tile3 = this.add.sprite(200, 450, "tile3").setInteractive();
 
   this.input.setDraggable(tile1);
   this.input.setDraggable(tile2);
+  this.input.setDraggable(tile3);
 
   let dragableOrigin = {};
   let board = [
@@ -59,7 +63,12 @@ function create() {
     const column = Math.round((gameObject.x - 100) / 100);
     const row = Math.round((gameObject.y - 100) / 100);
 
-    if (isInsideBoard(gameObject) && !board[row][column]) {
+    if (
+      Math.abs(gameObject.x - dragableOrigin.x) < 5 &&
+      Math.abs(gameObject.y - dragableOrigin.y) < 5
+    ) {
+      gameObject.setAngle(gameObject.angle + 90);
+    } else if (isInsideBoard(gameObject) && !board[row][column]) {
       if (isInsideBoard(dragableOrigin)) {
         //remove tile from original place
         let startColumn = dragableOrigin.x / 100 - 1;
