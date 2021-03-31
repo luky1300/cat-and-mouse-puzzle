@@ -1,2 +1,2 @@
 # cat-and-mouse-puzzle
-Recreation of the Cat and Mouse Game by GoGetter
+Recreation of the famous Cat and Mouse Game by GoGetter
