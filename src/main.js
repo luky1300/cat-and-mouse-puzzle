@@ -19,14 +19,53 @@ const field = {
 
 const tileSize = field.width / 3;
 
+const winningConditions = [
+  [
+  [{type: 'flower', angle: [-90]}, {type: 'corner', angle: [90]}, {type: 'corner', angle: [-90]}],
+  [{type: 'two-corners', angle: [0, -180]}, {type: 'flower', angle: [0]}, {type: 'two-corners', angle: [90, -90]}],
+  [{type: 'corner', angle: [-180]}, {type: 'bridge', angle: [0]}, {type: 'cross', angle: [0]}],
+  ],
+]
+
+let currentPosition = [
+  [{}, {}, {}],
+  [{}, {}, {}],
+  [{}, {}, {}]
+]
+
+function checkIfWinningPosition (currentPosition, winningPositions) {
+
+  console.log(currentPosition)
+
+  for (let i = 0; i < winningPositions.length; i++) {
+    let oneWinningPosition = winningPositions[i];
+    let numberWinningBlocks = 0;
+
+    for (let j = 0; j < oneWinningPosition.length; j++) {
+      let winningRow = oneWinningPosition[j];
+      for (let k = 0; k < winningRow.length; k++) {
+        let winningBlock = winningRow[k];
+        if (winningBlock.type === currentPosition[j][k].type && winningBlock.angle.indexOf(currentPosition[j][k].angle) !== -1) {
+          numberWinningBlocks++;
+        }
+        console.log(numberWinningBlocks);
+      }
+    }
+    if (numberWinningBlocks === 9) {
+      console.log('WIN!!!!');
+      break;
+    }
+  }
+}
+
 function preload() {
   
   this.load.image("tile1", "assets/tile-corner.png");
   this.load.image("tile2", "assets/tile-corner.png");
   this.load.image("tile3", "assets/tile-corner.png");
-  this.load.image("tile4", "assets/tile-corner.png");
+  this.load.image("tile4", "assets/tile-flower.png");
   this.load.image("tile5", "assets/tile-flower.png");
-  this.load.image("tile6", "assets/tile-flower.png");
+  this.load.image("tile6", "assets/tile-two-corners.png");
   this.load.image("tile7", "assets/tile-two-corners.png");
   this.load.image("tile8", "assets/tile-cross.png");
   this.load.image("tile9", "assets/tile-bridge.png");
@@ -82,22 +121,31 @@ function create() {
 
   const tile1 = this.add.sprite(70, 550, "tile1").setInteractive();
   tile1.name = 'tile1';
+  tile1.type = 'corner';
   const tile2 = this.add.sprite(190, 550, "tile2").setInteractive();
   tile2.name = 'tile2';
+  tile2.type = 'corner';
   const tile3 = this.add.sprite(310, 550, "tile3").setInteractive();
   tile3.name = 'tile3';
+  tile3.type = 'corner';
   const tile4 = this.add.sprite(430, 550, "tile4").setInteractive();
   tile4.name = 'tile4';
+  tile4.type = 'flower';
   const tile5 = this.add.sprite(550, 550, "tile5").setInteractive();
   tile5.name = 'tile5';
+  tile5.type = 'flower';
   const tile6 = this.add.sprite(120, 670, "tile6").setInteractive();
   tile6.name = 'tile6';
+  tile6.type = 'two-corners';
   const tile7 = this.add.sprite(240, 670, "tile7").setInteractive();
   tile7.name = 'tile7';
+  tile7.type = 'two-corners';
   const tile8 = this.add.sprite(360, 670, "tile8").setInteractive();
   tile8.name = 'tile8';
+  tile8.type = 'cross';
   const tile9 = this.add.sprite(480, 670, "tile9").setInteractive();
   tile9.name = 'tile9';
+  tile9.type = 'bridge';
 
 
 
@@ -118,7 +166,6 @@ function create() {
     [0, 0, 0],
   ];
 
-  //TBD: refactor to account for board size and position
   const isInsideBoard = (point) =>
     point.x > (2*field.x - field.width)/2 && point.x < (2*field.x + field.width)/2 
     && 
@@ -152,6 +199,12 @@ function create() {
       gameObject.name !== "tile9"
     ) {
       gameObject.setAngle(gameObject.angle + 90);
+      if (isInsideBoard(gameObject)) {
+        currentPosition[row][column] = {
+          type: gameObject.type,
+          angle: gameObject.angle
+        }
+      }
     } else if (isInsideBoard(gameObject) && !board[row][column]) {
       if (isInsideBoard(dragableOrigin)) {
         //remove tile from original place
@@ -164,6 +217,10 @@ function create() {
       gameObject.x = (field.x - field.width/3) + column * tileSize;
       gameObject.y = (field.y - field.width/3) + row * tileSize;
       board[row][column] = gameObject.name;
+      currentPosition[row][column] = {
+        type: gameObject.type,
+        angle: gameObject.angle
+      }
     } else if (
       (isInsideBoard(gameObject) && board[row] && board[row][column]) ||
       isOnEdge(gameObject)
@@ -185,6 +242,11 @@ function create() {
       gameObject.x;
       gameObject.y;
     }
+
+    //check if winning condition
+
+    checkIfWinningPosition(currentPosition, winningConditions);
+
   });
 
   this.input.on("drag", function (pointer, gameObject, dragX, dragY) {
