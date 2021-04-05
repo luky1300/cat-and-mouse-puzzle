@@ -70,15 +70,9 @@ class LevelScene extends Phaser.Scene {
         this.add.rectangle(750, 250, 475, 475, 0x4ccd43);
         this.add.rectangle(750, 47, 475, 70, 0x4c3);
         this.add.text(600, 30, `CHALLENGE ${this.levelNumber}`, {fontSize: '40px'})
-        this.add.sprite(600, 170, "char-dog1");
-        this.add.sprite(700, 170, "arrow");
-        this.add.sprite(850, 130, "char-house2");
-        this.add.sprite(850, 210, "char-ham");
-        this.add.sprite(600, 290, "arrow-crossed").setAngle(90);
-        this.add.sprite(600, 400, "char-dog2");
-        this.add.sprite(700, 400, "arrow");
-        this.add.sprite(850, 360, "char-house1");
-        this.add.sprite(870, 440, "char-bone");
+        challenges[this.levelNumber - 1].forEach(char => {
+            this.add.sprite(char.x, char.y, char.name);
+        })
       
         const tile1 = this.add.sprite(220, 550, "tile1").setInteractive();
         tile1.name = "tile1";
@@ -218,7 +212,7 @@ class LevelScene extends Phaser.Scene {
       
             //check if winning condition
       
-            if (checkIfWinningPosition(currentPosition, winningConditions)) {
+            if (checkIfWinningPosition(currentPosition, winningConditions[this.levelNumber - 1])) {
               tile1.disableInteractive()
               tile2.disableInteractive()
               tile3.disableInteractive()
@@ -228,7 +222,7 @@ class LevelScene extends Phaser.Scene {
               tile7.disableInteractive()
               tile8.disableInteractive()
               tile9.disableInteractive()
-              this.add.text(60, 200, "YOU WON!", {
+              this.add.text(60, 200, "Challenege solved!", {
                 fontSize: "80px",
                 backgroundColor: "#f00",
               });
@@ -247,6 +241,7 @@ class LevelScene extends Phaser.Scene {
             .on("pointerdown", function () {
                 this.scene.restart({levelNumber: this.levelNumber + 1})
             }, this)
+        this.add.text(780, 730, "Next Level", {fill: "#4ccd43", fontFamily: 'Playball', fontSize: '30px'})
     
     }
 
