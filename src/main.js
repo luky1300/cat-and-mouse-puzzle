@@ -1,4 +1,3 @@
-
 const config = {
   width: 1000,
   height: 800,
@@ -16,7 +15,6 @@ const field = {
 };
 
 const tileSize = field.width / 3;
-
 
 let currentPosition = [
   [{}, {}, {}],
@@ -51,4 +49,3 @@ function checkIfWinningPosition(currentPosition, winningPositions) {
   }
   return isWinningPosition;
 }
-

@@ -1,11 +1,11 @@
 const challenges = [
-//level 1  
-[
+  //level 1
+  [
     { name: "char-cat", x: 600, y: 290 },
     { name: "arrow", x: 720, y: 290 },
     { name: "char-mouse1", x: 850, y: 290 },
   ],
-//level 2 (22 in the book)
+  //level 2 (22 in the book)
   [
     { name: "char-dog1", x: 600, y: 170 },
     { name: "arrow", x: 700, y: 170 },
