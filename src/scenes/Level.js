@@ -45,10 +45,10 @@ class LevelScene extends Phaser.Scene {
       field.height,
       0x3e4095
     );
-    this.add.rectangle(201, 250, 1, 300, 0x000000);
-    this.add.rectangle(301, 250, 1, 300, 0x000000);
-    this.add.rectangle(250, 201, 300, 1, 0x000000);
-    this.add.rectangle(250, 301, 300, 1, 0x000000);
+    this.add.rectangle(200, 250, 1, 300, 0x000000);
+    this.add.rectangle(300, 250, 1, 300, 0x000000);
+    this.add.rectangle(250, 200, 300, 1, 0x000000);
+    this.add.rectangle(250, 300, 300, 1, 0x000000);
 
     const charMouse1 = this.add.sprite(60, 160, "char-mouse1");
     const charHouse1 = this.add.sprite(60, 250, "char-house1");
@@ -157,11 +157,13 @@ class LevelScene extends Phaser.Scene {
           gameObject.name !== "tile9"
         ) {
           gameObject.setAngle(gameObject.angle + 90);
-          if (isInsideBoard(gameObject)) {
+            if (isInsideBoard(gameObject)) {
             currentPosition[row][column] = {
               type: gameObject.type,
               angle: gameObject.angle,
             };
+            gameObject.x = dragableOrigin.x
+            gameObject.y = dragableOrigin.y
           }
         } else if (isInsideBoard(gameObject) && !board[row][column]) {
           if (isInsideBoard(dragableOrigin)) {
@@ -178,6 +180,7 @@ class LevelScene extends Phaser.Scene {
           //stick
           gameObject.x = field.x - field.width / 3 + column * tileSize;
           gameObject.y = field.y - field.width / 3 + row * tileSize;
+          console.log(gameObject.x, gameObject.y)
           board[row][column] = gameObject.name;
           currentPosition[row][column] = {
             type: gameObject.type,
@@ -240,7 +243,7 @@ class LevelScene extends Phaser.Scene {
     });
 
     this.add
-      .rectangle(850, 750, 200, 70, 0xfff)
+      .rectangle(850, 750, 250, 70, 0xfff)
       .setInteractive()
       .on(
         "pointerdown",
@@ -249,8 +252,8 @@ class LevelScene extends Phaser.Scene {
         },
         this
       );
-    this.add.text(780, 730, "Next Level", {
-      fill: "#4ccd43",
+    this.add.text(760, 730, "Next Challenge", {
+      // fill: "#4ccd43",
       fontFamily: "Playball",
       fontSize: "30px",
     });

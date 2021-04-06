@@ -190,16 +190,12 @@ function isRoute(point1, point2, board) {
     [false, false, false, false, false, false],
   ];
 
-  let allNeighbors = getAllNeighbors(point1, board);
-
-  console.log("first set of neighbors", point1, [...allNeighbors]);
+  let allNeighbors = [point1];
 
   let isWinningCondition = false;
 
   while (allNeighbors.length) {
-    console.log([...allNeighbors]);
     let neighbor = allNeighbors.shift();
-    //   console.log('neighborsForCurrent', neighbor, neighborsForCurrent)
     if (neighbor.x === point2.x && neighbor.y === point2.y) {
       isWinningCondition = true;
       break;
