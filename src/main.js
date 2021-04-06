@@ -23,29 +23,33 @@ let currentPosition = [
 ];
 
 function checkIfWinningPosition(currentPosition, winningPositions) {
-  console.log(currentPosition);
-  let isWinningPosition = false;
+  //console.log(currentPosition);
 
-  for (let i = 0; i < winningPositions.length; i++) {
-    let oneWinningPosition = winningPositions[i];
-    let wasFailedBlock = false;
+  console.log(isRoute({x:3, y:0}, {x:0, y:1}, currentPosition))
 
-    for (let j = 0; j < oneWinningPosition.length; j++) {
-      let winningRow = oneWinningPosition[j];
-      for (let k = 0; k < winningRow.length; k++) {
-        let winningBlock = winningRow[k];
-        if (
-          winningBlock.type !== currentPosition[j][k].type ||
-          !winningBlock.angle.includes(currentPosition[j][k].angle)
-        ) {
-          wasFailedBlock = true;
-        }
-      }
-    }
-    if (!wasFailedBlock) {
-      isWinningPosition = true;
-      break;
-    }
-  }
-  return isWinningPosition;
+
+  // let isWinningPosition = false;
+
+  // for (let i = 0; i < winningPositions.length; i++) {
+  //   let oneWinningPosition = winningPositions[i];
+  //   let wasFailedBlock = false;
+
+  //   for (let j = 0; j < oneWinningPosition.length; j++) {
+  //     let winningRow = oneWinningPosition[j];
+  //     for (let k = 0; k < winningRow.length; k++) {
+  //       let winningBlock = winningRow[k];
+  //       if (
+  //         winningBlock.type !== currentPosition[j][k].type ||
+  //         !winningBlock.angle.includes(currentPosition[j][k].angle)
+  //       ) {
+  //         wasFailedBlock = true;
+  //       }
+  //     }
+  //   }
+  //   if (!wasFailedBlock) {
+  //     isWinningPosition = true;
+  //     break;
+  //   }
+  // }
+  // return isWinningPosition;
 }
