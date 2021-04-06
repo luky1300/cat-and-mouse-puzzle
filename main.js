@@ -22,30 +22,19 @@ let currentPosition = [
   [{}, {}, {}],
 ];
 
-function checkIfWinningPosition(currentPosition, winningPositions) {
-  console.log(currentPosition);
-  let isWinningPosition = false;
+function checkIfWinningPosition(currentPosition, winningConditions) {
+  
+  let isWinningPosition = true;
 
-  for (let i = 0; i < winningPositions.length; i++) {
-    let oneWinningPosition = winningPositions[i];
-    let wasFailedBlock = false;
-
-    for (let j = 0; j < oneWinningPosition.length; j++) {
-      let winningRow = oneWinningPosition[j];
-      for (let k = 0; k < winningRow.length; k++) {
-        let winningBlock = winningRow[k];
-        if (
-          winningBlock.type !== currentPosition[j][k].type ||
-          !winningBlock.angle.includes(currentPosition[j][k].angle)
-        ) {
-          wasFailedBlock = true;
-        }
-      }
-    }
-    if (!wasFailedBlock) {
-      isWinningPosition = true;
+  for (let i = 0; i < winningConditions.length; i++) {
+    let condition = winningConditions[i];
+    if (
+      isRoute(condition.point1, condition.point2, currentPosition) !==
+      condition.connected
+    )
+      isWinningPosition = false;
       break;
-    }
   }
+
   return isWinningPosition;
 }
